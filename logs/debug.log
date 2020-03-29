@@ -1,0 +1,199 @@
+Watching for file changes with StatReloader
+"GET /article/article-detail/1/ HTTP/1.1" 200 25715
+"GET /notice/list/ HTTP/1.1" 200 5809
+C:\Users\HP\Desktop\Django\blog\article\models.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\HP\Desktop\Django\blog\article\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\HP\Desktop\Django\blog\article\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\HP\Desktop\Django\blog\article\views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /article/article-list/ HTTP/1.1" 200 7698
+Internal Server Error: /article/article-detail/1/
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 469, in parse
+    compile_func = self.tags[command]
+KeyError: 'static'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\HP\Desktop\Django\blog\article\views.py", line 73, in article_detail
+    return render(request, 'article/detail.html', context)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\backends\django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loaders\base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 156, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 194, in compile_nodelist
+    return parser.parse()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 477, in parse
+    raise self.error(token, e)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loader_tags.py", line 266, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 477, in parse
+    raise self.error(token, e)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loader_tags.py", line 209, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 471, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 527, in invalid_block_tag
+    get_text_list(["'%s'" % p for p in parse_until], 'or'),
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 248: 'static', expected 'endblock'. Did you forget to register or load this tag?
+"GET /article/article-detail/1/ HTTP/1.1" 500 175751
+Internal Server Error: /article/article-detail/1/
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 469, in parse
+    compile_func = self.tags[command]
+KeyError: 'static'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\HP\Desktop\Django\blog\article\views.py", line 73, in article_detail
+    return render(request, 'article/detail.html', context)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\backends\django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loaders\base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 156, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 194, in compile_nodelist
+    return parser.parse()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 477, in parse
+    raise self.error(token, e)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loader_tags.py", line 266, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 477, in parse
+    raise self.error(token, e)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loader_tags.py", line 209, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 471, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 527, in invalid_block_tag
+    get_text_list(["'%s'" % p for p in parse_until], 'or'),
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 204: 'static', expected 'endblock'. Did you forget to register or load this tag?
+"GET /article/article-detail/1/ HTTP/1.1" 500 175296
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2879
+Internal Server Error: /article/article-detail/1/
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 469, in parse
+    compile_func = self.tags[command]
+KeyError: 'static'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\HP\Desktop\Django\blog\article\views.py", line 73, in article_detail
+    return render(request, 'article/detail.html', context)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\backends\django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loaders\base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 156, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 194, in compile_nodelist
+    return parser.parse()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 477, in parse
+    raise self.error(token, e)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loader_tags.py", line 266, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 477, in parse
+    raise self.error(token, e)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\loader_tags.py", line 209, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 471, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python37-32\lib\site-packages\django\template\base.py", line 527, in invalid_block_tag
+    get_text_list(["'%s'" % p for p in parse_until], 'or'),
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 204: 'static', expected 'endblock'. Did you forget to register or load this tag?
+"GET /article/article-detail/1/ HTTP/1.1" 500 175755
+"GET /article/article-detail/1/ HTTP/1.1" 200 29191
+"POST /article/increase-likes/1/ HTTP/1.1" 200 7
+"GET /userprofile/logout/ HTTP/1.1" 302 0
+"GET /article/article-list/ HTTP/1.1" 200 5766
+"GET /userprofile/login/ HTTP/1.1" 200 3990
+"POST /userprofile/login/ HTTP/1.1" 302 0
+"GET /article/article-list/ HTTP/1.1" 200 7288
+"GET /article/article-list/ HTTP/1.1" 200 7373
+"GET /userprofile/login/ HTTP/1.1" 200 5597
+"GET /userprofile/login/ HTTP/1.1" 200 5597
+C:\Users\HP\Desktop\Django\blog\userprofile\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\HP\Desktop\Django\blog\userprofile\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\HP\Desktop\Django\blog\userprofile\urls.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /article/article-list/ HTTP/1.1" 200 7374
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2879
+"GET /userprofile/switcg/ HTTP/1.1" 302 0
+"GET /userprofile/login/ HTTP/1.1" 200 3990
+"GET /userprofile/login/ HTTP/1.1" 200 3990
+"POST /userprofile/login/ HTTP/1.1" 302 0
+"GET /article/article-list/ HTTP/1.1" 200 7374
+"GET /userprofile/switcg/ HTTP/1.1" 302 0
+"GET /userprofile/login/ HTTP/1.1" 200 3990
