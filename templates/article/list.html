@@ -8,101 +8,106 @@
 <!-- 写入 base.html 中定义的 content -->
 {% block content %}
 
-<!-- 定义放置文章标题的div容器 -->
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{% url 'article:article_list' %}?search={{ search }}&tag={{ tag }}">
-                    最新
-                </a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="{% url 'article:article_list' %}?order=total_views?search={{ search }}&tag={{ tag }}">
-                    最热
-                </a>
-            </li>
-        </ol>
-    </nav>
-    <!--搜索栏 -->
-    <div class="row">
-        <div class="col-auto mr-auto">
-            <form class="form-inline" >
+    <!-- 定义放置文章标题的div容器 -->
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'article:article_list' %}?search={{ search }}&tag={{ tag }}">最新</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'article:article_list' %}?order=total_views&search={{ search }}&tag={{ tag }}">热门</a>
+                    </li>
+                </ul>
+
+            </div>
+            <form class="navbar-form">
                 <label class="sr-only">content</label>
                 <input type="text"
-                    class="form-control mb-2 mr-sm-2"
-                    name="search"
-                    placeholder="搜索文章..."
-                    required
+                       class="form-control"
+                       name="search"
+                       placeholder="搜索文章..."
+                       required
                 >
             </form>
-        </div>
-    </div>
 
-    <!-- 搜索提示语 -->
-    {% if search %}
-        {% if articles %}
-            <h4><span style="color: red">"{{ search }}"</span>的搜索结果如下：</h4>
-            <hr>
-        {% else %}
-            <h4>暂无<span style="color: red">"{{ search }}"</span>有关的文章。</h4>
-            <hr>
+            <ul class="navbar-nav ml-3">
+                <li class="nav-item ml-auto">
+                    {% if user.is_superuser %}
+                        <a class="btn btn-primary" href="{% url 'article:article_create' %}">写文章</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+
+        <!-- 搜索提示语 -->
+        {% if search %}
+            {% if articles %}
+                <h4><span style="color: red">"{{ search }}"</span>的搜索结果如下：</h4>
+                <hr>
+            {% else %}
+                <h4>暂无<span style="color: red">"{{ search }}"</span>有关的文章。</h4>
+                <hr>
+            {% endif %}
         {% endif %}
-    {% endif %}
 
-    <div class="row mt-2">
-        {% for article in articles %}
-        <!-- 文章内容 -->
-        <div class="col-12">
-            <!-- 文章标签 -->
-            <span>
+        <hr>
+        <div class="row mt-2">
+            {% for article in articles %}
+                <!-- 文章内容 -->
+                <div class="col-12">
+                    <!-- 文章标签 -->
+                    <span>
         {% for tag in article.tags.all %}
             <a href="{% url 'article:article_list' %}?tag={{ tag }}"
-           class="badge badge-secondary"
-        >
+               class="badge badge-secondary"
+            >
             {{ tag }}
         </a>
         {% endfor %}
          </span>
 
-        <!-- 标题 -->
-            <h4>
-                <b>
-                    <a href="{% url 'article:article_detail' article.id %}"
-                       style="color: black;"
-                    >
-                        {{ article.title }}
-                    </a>
-                </b>
-            </h4>
-                <!-- 摘要 -->
-               <div>
-                <p style="color: gray;">
-                    {{ article.body|slice:'100' }}...
-                </p>
-                </div>
-                <!-- 注脚 -->
-            <p>
-                <!-- 附加信息 -->
-                <span style="color: green;">
+                    <!-- 标题 -->
+                    <h4>
+                        <b>
+                            <a href="{% url 'article:article_detail' article.id %}"
+                               style="color: black;"
+                            >
+                                {{ article.title }}
+                            </a>
+                        </b>
+                    </h4>
+                    <!-- 摘要 -->
+                    <div>
+                        <p style="color: gray;">
+                            {{ article.body|slice:'100' }}...
+                        </p>
+                    </div>
+                    <!-- 注脚 -->
+                    <p>
+                        <!-- 附加信息 -->
+                        <span style="color: green;">
                     <i class="fas fa-eye" style="color: lightskyblue;"></i>
                     {{ article.total_views }} &nbsp;&nbsp;&nbsp;
                 </span>
-                <span style="color: blue;">
+                        <span style="color: blue;">
                     <i class="fas fa-comments" style="color: yellowgreen;"></i>
                     {{ article.comments.count }}&nbsp;&nbsp;&nbsp;
                 </span>
-                <span style="color: darkred;">
+                        <span style="color: darkred;">
                     <i class="fas fa-clock" style="color: pink;"></i>
                     {{ article.updated|date:'Y-m-d' }}
                 </span>
-            </p>
-            <hr>
-            </div>
-        {% endfor %}
+                    </p>
+                    <hr>
+                </div>
+            {% endfor %}
 
+        </div>
     </div>
-</div>
 
     <!-- 页码导航 -->
     <div class="pagination row">
