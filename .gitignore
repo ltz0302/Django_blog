@@ -1,10 +1,11 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
 # Byte-compiled / optimized / DLL files
+.idea
 __pycache__/
 *.py[cod]
 *$py.class
-*.pyc
+logs/debug.log
 # C extensions
 *.so
 
@@ -57,7 +58,7 @@ coverage.xml
 *.pot
 
 # Django stuff:
-logs/debug.log
+logs/
 *.log
 local_settings.py
 db.sqlite3
