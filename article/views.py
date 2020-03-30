@@ -74,6 +74,9 @@ def article_detail(request, id):
 
 @login_required(login_url='/userprofile/login/')
 def article_create(request):
+    superuser = User.objects.get(is_superuser=True)
+    if request.user != superuser:
+        return HttpResponse("抱歉，你无权写文章。")
     if request.method == "POST":
         # 将提交的数据赋值到表单实例中
         article_post_form = ArticlePostForm(data=request.POST)
