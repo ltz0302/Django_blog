@@ -9,7 +9,7 @@ from .models import Profile
 
 # Create your views here.
 
-def user_login(request):
+def user_login_check(request):
     if request.method == 'POST':
         user_login_form = UserLoginForm(data=request.POST)
         if user_login_form.is_valid():
@@ -19,19 +19,11 @@ def user_login(request):
             # 如果均匹配则返回这个 user 对象
             user = authenticate(username=data['username'], password=data['password'])
             if user:
-                # 将用户数据保存在 session 中，即实现了登录动作
-                login(request, user)
-                return redirect("article:article_list")
+                return HttpResponse("t")
             else:
-                return HttpResponse("账号或密码输入有误。请重新输入~")
+                return HttpResponse("f")
         else:
             return HttpResponse("账号或密码输入不合法")
-    elif request.method == 'GET':
-        user_login_form = UserLoginForm()
-        context = { 'form': user_login_form }
-        return render(request, 'userprofile/login.html', context)
-    else:
-        return HttpResponse("请使用GET或POST请求数据")
 
 def user_switch(request):
     logout(request)
@@ -61,6 +53,7 @@ def user_register(request):
         return render(request, 'userprofile/register.html', context)
     else:
         return HttpResponse("请使用GET或POST请求数据")
+
 
 
 @login_required(login_url='/userprofile/login/')
@@ -98,7 +91,6 @@ def profile_edit(request, id):
             profile_cd = profile_form.cleaned_data
             profile.phone = profile_cd['phone']
             if 'avatar' in request.FILES:
-                print("1111111")
                 profile.avatar = profile_cd["avatar"]
             profile.bio = profile_cd['bio']
             profile.save()
@@ -112,3 +104,29 @@ def profile_edit(request, id):
         return render(request, 'userprofile/edit.html', context)
     else:
         return HttpResponse("请使用GET或POST请求数据")
+
+
+def check_username(request):
+    username = request.GET.get('username')
+    user = User.objects.filter(username=username)
+    if user:
+        return HttpResponse("f")
+    return HttpResponse("t")
+
+
+def check_password1(request):
+    if request.method == 'POST':
+        password1 = request.POST.get('password1')
+        length = len(password1)
+        if not password1.isdecimal() and length >= 8:
+            return HttpResponse("t")
+        return HttpResponse("f")
+
+def check_password2(request):
+    if request.method == 'POST':
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        if password1 == password2:
+            return HttpResponse("t")
+        return HttpResponse("f")
+

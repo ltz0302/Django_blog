@@ -1,63 +1,93 @@
 {% extends "base.html" %}
+{% load static %}
 {% load i18n %}
 {% load account socialaccount %}
 {% block title %}登录{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            {% get_providers as socialaccount_providers %}
-            {% if socialaccount_providers %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                {% get_providers as socialaccount_providers %}
+                {% if socialaccount_providers %}
 
-            <div class="socialaccount_ballot">
-                <h5 class="mb-2 mt-4">第三方登录：</h5>
-                <ul class="socialaccount_providers">
-                  {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                </ul>
-                <h5 class="mb-2 mt-4">本地登录：</h5>
-            </div>
-
-            {% include "socialaccount/snippets/login_extra.html" %}
-
-            {% endif %}
-            <div class="col-6">
-                <form class="login" id="login_form" method="POST" action="{% url 'account_login' %}">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="id_login">账号: </label>
-                        <input type="text" name="login" placeholder="请输入用户名或Email" autofocus="autofocus" required
-                            id="id_login" class="form-control" />
-                        <small class="form-text text-muted ml-1">
-                            还没有账号？
-                            <a href="{% url 'account_signup' %}" style="color: cornflowerblue; ">
-                                注册新账号
-                            </a>
-                        </small>
+                    <div class="socialaccount_ballot">
+                        <h5 class="mb-2 mt-4">第三方登录：</h5>
+                        <ul class="socialaccount_providers">
+                            {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                        </ul>
+                        <h5 class="mb-2 mt-4">本地登录：</h5>
                     </div>
 
-                    <div class="form-group mb-1">
-                        <label for="id_password">密码:</label>
-                        <input type="password" name="password" placeholder="请输入密码" required id="id_password"
-                            class="form-control" />
-                        <small class="form-text text-muted ml-1">
-                            <a class="secondaryAction layui-text" href="{% url 'account_reset_password' %}">
-                                忘记密码?
-                            </a>
-                        </small>
-                    </div>
+                    {% include "socialaccount/snippets/login_extra.html" %}
 
-                    <div class="custom-control custom-checkbox mb-2">
-                        <input type="checkbox" name="remember" id="id_remember" checked class="custom-control-input" />
-                        <label for="id_remember" class="custom-control-label">
-                            保持登录
-                        </label>
-                    </div>
+                {% endif %}
+                <div class="col-6">
+                    <form class="login" id="login_form" method="POST" action="{% url 'account_login' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_login">账号: </label>
+                            <input type="text" name="login" placeholder="请输入用户名或Email" autofocus="autofocus" required
+                                   id="id_login" class="form-control"/>
+                            <small class="form-text text-muted ml-1">
+                                还没有账号？
+                                <a href="{% url 'account_signup' %}" style="color: cornflowerblue; ">
+                                    注册新账号
+                                </a>
+                            </small>
+                        </div>
 
-                    <button class="primaryAction btn btn-primary" type="submit" id="submit_login">确认</button>
-                </form>
+                        <div class="form-group mb-1">
+                            <label for="id_password">密码:</label>
+                            <input type="password" name="password" placeholder="请输入密码" required id="id_password"
+                                   class="form-control"/>
+                            <small class="form-text text-muted ml-1">
+                                <a class="secondaryAction layui-text" href="{% url 'account_reset_password' %}">
+                                    忘记密码?
+                                </a>
+                            </small>
+                        </div>
+
+                        <div class="custom-control custom-checkbox mb-2">
+                            <input type="checkbox" name="remember" id="id_remember" checked
+                                   class="custom-control-input"/>
+                            <label for="id_remember" class="custom-control-label">
+                                保持登录
+                            </label>
+                        </div>
+
+                        {#                        <input type="button" value="确认" class="primaryAction btn btn-primary" id="submit_login"#}
+                        {#                                onclick="on_submit_login(this)" >#}
+                        <button type="button" class="primaryAction btn btn-primary" id="submit_login"
+                                onclick="on_submit_login(this)">确认
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
+
+{% block script %}
+    <script src="{% static 'csrf.js' %}"></script>
+    <script>
+        function on_submit_login(self) {
+            let username = $("#id_login").val();
+            let password = $("#id_password").val();
+            $.ajax({
+                url: '/userprofile/user-login-check/',
+                type: 'POST',
+                data: {username: username, password: password},
+                // 成功回调
+                success: function (e) {
+                    if (e === 'f') {
+                        layer.msg("账号或密码错误，请重试。");
+                    } else {
+                        $("#login_form").submit();
+                    }
+                }
+            })
+        }
+    </script>
+
+{% endblock script %}
