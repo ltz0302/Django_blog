@@ -11,13 +11,13 @@
                 <a class="nav-link" href="{% url 'article:article_list' %}">文章</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'userprofile:login' %}">日记</a>
+                <a class="nav-link" href="#">日记</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'userprofile:login' %}">照片</a>
+                <a class="nav-link" href="#">照片</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'userprofile:login' %}">文档</a>
+                <a class="nav-link" href="#">文档</a>
             </li>
         </ul>
 
@@ -51,7 +51,7 @@
 {#                         {% if user.is_superuser %}#}
 {#                            <a class="dropdown-item" href="{% url 'article:article_create' %}">写文章</a>#}
 {#                         {% endif %}#}
-                            <a class="dropdown-item" href='{% url "userprofile:edit" user.id %}'>个人信息</a>
+                            <a class="dropdown-item" href='{% url "userprofile:edit" user.id%}'>个人信息</a>
                             <a class="dropdown-item" href="#" onclick="user_delete()">删除用户</a>
                             <a class="dropdown-item" href="{% url "userprofile:switch" %}">切换账号</a>
                             <a class="dropdown-item" href="{% url "userprofile:logout" %}">退出登录</a>
@@ -60,7 +60,7 @@
                     <!-- 如果用户未登录，则显示 “登录” -->
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'userprofile:login' %}">登录</a>
+                        <a class="nav-link" href="/accounts/login/">登录</a>
                     </li>
                 {% endif %}
             </ul>

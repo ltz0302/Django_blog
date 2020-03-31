@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}注册{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <br>
+                {##}
+                {#                                                <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">#}
+                {#                                                    {% csrf_token %}#}
+                {#                                                    {{ form.as_p }}#}
+                {#                                                    {% if redirect_field_value %}#}
+                {#                                                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>#}
+                {#                                                    {% endif %}#}
+                {#                                                    <button class="primaryAction btn btn-primary" type="submit">确认</button>#}
+                {#                                                </form>#}
+                <div class="col-6">
+                    <form class="signup" id="signup_form" method="POST" action="{% url 'account_signup' %}">
+                        {% csrf_token %}
+                        <div class="form-group mb-1">
+                            <label for="id_username">用户名: </label>
+                            <input type="text" name="username" placeholder="请输入用户名" autofocus="autofocus" required
+                                   id="id_username" class="form-control"/>
+                        </div>
+
+                        <div class="form-group mb-1">
+                            <label for="id_email">邮箱:</label>
+                            <input type="email" name="email" placeholder="请输入邮箱地址" id="id_email" class="form-control"/>
+                        </div>
+
+                        <div class="form-group mb-1">
+                            <label for="id_password1">密码:</label>
+                            <input type="password" name="password1" placeholder="请输入密码" required id="id_password1"
+                                   class="form-control"/>
+                        </div>
+
+                        <div class="form-group mb-1">
+                            <label for="id_password2">重输密码:</label>
+                            <input type="password" name="password2" placeholder="再次输入密码" required id="id_password2"
+                                   class="form-control"/>
+                        </div>
+                        <br>
+                        <button class="primaryAction btn btn-primary" type="submit" id="submit_signup">确认</button>
+                        <small class="form-text text-muted ml-1">
+                            已经有账号了?请点击
+                            <a href="{{ login_url }}" style="color: cornflowerblue; ">
+                                登录
+                            </a>
+                        </small>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

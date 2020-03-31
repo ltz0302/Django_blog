@@ -35,7 +35,7 @@ def user_login(request):
 
 def user_switch(request):
     logout(request)
-    return redirect("userprofile:login")
+    return redirect("account_login")
 
 def user_logout(request):
     logout(request)
