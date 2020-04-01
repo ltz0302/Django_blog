@@ -7,7 +7,7 @@ from article.models import ArticlePost
 from .forms import CommentForm
 from .models import Comment
 
-@login_required(login_url='/userprofile/login/')
+@login_required(login_url='/accounts/login/')
 def post_comment(request, article_id, parent_comment_id=None):
     article = get_object_or_404(ArticlePost, id=article_id)
 

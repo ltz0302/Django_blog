@@ -72,7 +72,7 @@ def article_detail(request, id):
     context = {'article': article, 'toc': md.toc, 'comments': comments, 'comment_form': comment_form,}
     return render(request, 'article/detail.html', context)
 
-@login_required(login_url='/userprofile/login/')
+@login_required(login_url='/accounts/login/')
 def article_create(request):
     superuser = User.objects.get(is_superuser=True)
     if request.user != superuser:
@@ -95,7 +95,7 @@ def article_create(request):
         context = {'article_post_form': article_post_form}
         return render(request, 'article/create.html', context)
 
-@login_required(login_url='/userprofile/login/')
+@login_required(login_url='/accounts/login/')
 def article_safe_delete(request, id):
     if request.method == 'POST':
         article = ArticlePost.objects.get(id=id)
@@ -107,7 +107,7 @@ def article_safe_delete(request, id):
     else:
         return HttpResponse("仅允许post请求")
 
-@login_required(login_url='/userprofile/login/')
+@login_required(login_url='/accounts/login/')
 def article_update(request, id):
     article = ArticlePost.objects.get(id=id)
     # 过滤非作者的用户
