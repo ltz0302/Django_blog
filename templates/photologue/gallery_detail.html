@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ gallery.title }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="#">最新</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="#?order=total_views">热门</a>
+                    </li>
+                </ul>
+
+            </div>
+            <ul class="navbar-nav ml-3">
+                <li class="nav-item ml-auto">
+                    {% if user.is_superuser %}
+                        <a href="#" onclick="confirm_delete()">删除相册</a>
+                        <form
+                                style="display:none;"
+                                id="safe_delete"
+                                action="{% url 'photologue_custom:gallery_delete' gallery.id %}"
+                                method="POST"
+                        >
+                            {% csrf_token %}
+                            <button type="submit">发送</button>
+                        </form>
+                        <a class="btn btn-primary" href="#">上传照片</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+
+        <div class="row col-12">
+            <h3 class="page-header">{{ gallery.title }}</h3>
+        </div>
+        <div class="muted"><small>{% trans "Published" %} {{ gallery.date_added }}</small></div>
+        {% if gallery.description %}<p><small>{{ gallery.description|safe }}</small></p>{% endif %}
+        {% for photo in gallery.public %}
+            <a href="{{ photo.get_absolute_url }}">
+                <img src="{{ photo.get_thumbnail_url }}" class="thumbnail" alt="{{ photo.title }}">
+            </a>
+        {% endfor %}
+        <div><a href="{% url 'photologue:gallery-list' %}"
+                class="btn btn-default">{% trans "View all galleries" %}</a></div>
+
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'csrf.js' %}"></script>
+
+    <script>
+        function confirm_delete() {
+            // 调用layer弹窗组件
+            layer.open({
+                // 弹窗标题
+                title: "确认删除",
+                // 正文
+                content: "确认删除这个相册吗？",
+                // 点击确定按钮后调用的回调函数
+                yes: function (index, layero) {
+                    $('form#safe_delete button').click();
+                    layer.close(index);
+                },
+            })
+        }
+    </script>
+{% endblock script %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}相册{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="#">最新</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="#?order=total_views">热门</a>
+                    </li>
+                </ul>
+
+            </div>
+            <ul class="navbar-nav ml-3">
+                <li class="nav-item ml-auto">
+                    {% if user.is_superuser %}
+                        <a class="btn btn-primary" href="{% url 'photologue_custom:gallery_create' %}">新建相册</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+
+        {% if object_list %}
+            {% for gallery in object_list %}
+                <br>
+                <div class="row col-12">
+                    <a href="{{ gallery.get_absolute_url }}">{{ gallery.title }}</a>
+                </div>
+                <div class="muted"><small>{% trans "创建日期" %} {{ gallery.date_added }}</small></div>
+                {% if gallery.description %}<p><small>{{ gallery.description|safe }}</small></p>{% endif %}
+                {% for photo in gallery.sample %}
+                    <a href="{{ photo.get_absolute_url }}">
+                        <img src="{{ photo.get_thumbnail_url }}" class="thumbnail" alt="{{ photo.title }}">
+                    </a>
+                {% endfor %}
+                <hr>
+            {% endfor %}
+        {% else %}
+            <div class="row col-12">{% trans "没有相册" %}</div>
+        {% endif %}
+        {% include "photologue/includes/paginator.html" %}
+    </div>
+{% endblock %}

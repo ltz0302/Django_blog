@@ -86,6 +86,7 @@ def article_create(request):
             new_article = article_post_form.save(commit=False)
             new_article.author = User.objects.get(id=request.user.id)
             new_article.save()
+            # 保存 tags 的多对多关系
             article_post_form.save_m2m()
             return redirect("article:article_list")
         else:
