@@ -25,10 +25,12 @@ def user_login_check(request):
         else:
             return HttpResponse("账号或密码输入不合法")
 
+@login_required(login_url='/accounts/login/')
 def user_switch(request):
     logout(request)
     return redirect("account_login")
 
+@login_required(login_url='/accounts/login/')
 def user_logout(request):
     logout(request)
     return redirect("article:article_list")
@@ -56,7 +58,7 @@ def user_register(request):
 
 
 
-@login_required(login_url='/userprofile/login/')
+@login_required(login_url='/accounts/login/')
 def user_delete(request, id):
     if request.method == 'POST':
         user = User.objects.get(id=id)
@@ -72,7 +74,7 @@ def user_delete(request, id):
         return HttpResponse("仅接受post请求。")
 
 
-@login_required(login_url='/userprofile/login/')
+@login_required(login_url='/accounts/login/')
 def profile_edit(request, id):
     user = User.objects.get(id=id)
     if Profile.objects.filter(user_id=id).exists():
@@ -130,3 +132,9 @@ def check_password2(request):
             return HttpResponse("t")
         return HttpResponse("f")
 
+def check_email(request):
+    email = request.GET.get('email')
+    e = User.objects.filter(email=email)
+    if e:
+        return HttpResponse("f")
+    return HttpResponse("t")
