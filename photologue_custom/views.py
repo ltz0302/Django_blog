@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .forms import GalleryPostForm
-from photologue.models import Gallery
+from .forms import GalleryPostForm, PhotoPostForm
+from photologue.models import Gallery,Photo
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def gallery_create(request):
@@ -35,3 +35,36 @@ def gallery_delete(request, id):
         return redirect("photologue:gallery-list")
     else:
         return HttpResponse("仅允许post请求")
+
+@login_required(login_url='/accounts/login/')
+def photo_add(request):
+    superuser = User.objects.get(is_superuser=True)
+    if request.user != superuser:
+        return HttpResponse("抱歉，你无权上传照片。")
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        #TODO若照片已存在
+        if Photo.objects.filter(title=title).exists():
+            photo = Photo.objects.get(title=title)
+        else:
+            photo_form = PhotoPostForm(request.POST, request.FILES)
+            if photo_form.is_valid():
+                photo = photo_form.save(commit=False)
+                photo.save()
+            else:
+                return HttpResponse("注册表单输入有误。请重新输入~")
+        id_gallery = request.POST.get('id_gallery')
+        gallery = Gallery.objects.get(id=id_gallery)
+        gallery.photos.add(photo)
+        return redirect("photologue:gallery-list")
+    else:
+        gallery = Gallery.objects.all()
+        context = {'gallery': gallery}
+        return render(request, 'photologue/photo_add.html', context)
+
+
+class GalleryDateView:
+    pass
+
+class PhotoDateView:
+    pass
