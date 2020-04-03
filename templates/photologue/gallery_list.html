@@ -23,7 +23,7 @@
             <ul class="navbar-nav ml-3">
                 <li class="nav-item ml-auto">
                     {% if user.is_superuser %}
-                        <a class="btn btn-primary" href="{% url 'photologue_custom:photo_add'%}" >上传照片</a>
+                        <a class="btn btn-primary" href="{% url 'photologue_custom:photo_add' %}">上传照片</a>
                         <a class="btn btn-primary" href="{% url 'photologue_custom:gallery_create' %}">新建相册</a>
                     {% endif %}
                 </li>

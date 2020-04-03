@@ -1,11 +1,30 @@
 {% extends "base.html" %}
+{% load static %}
 {% load photologue_tags i18n %}
 
 {% block title %}{{ object.title }}{% endblock %}
 
 {% block content %}
     <div class="container">
-
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ul class="navbar-nav ml-3">
+                <li class="nav-item ml-auto">
+                    {% if user.is_superuser %}
+                        <a href="#" onclick="confirm_delete()">删除照片</a>
+                           <form
+                                style="display:none;"
+                                id="safe_delete"
+                                action="{% url "photologue_custom:photo_delete" photo.id %}"
+                                method="POST"
+                        >
+                            {% csrf_token %}
+                            <button type="submit">发送</button>
+                        </form>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+        <br>
         <div class="row col-lg-12">
             <h3 class="page-header">{{ object.title }}</h3>
         </div>
@@ -19,14 +38,14 @@
             </div>
             <div class="col-md-6">
                 {% if object.public_galleries %}
-                    <p>{% trans "This photo is found in the following galleries" %}:</p>
+                    <p>{% trans "这张照片在以下相册中" %}:</p>
                     <table>
                         {% for gallery in object.public_galleries %}
                             <tr>
-                                <td>{% previous_in_gallery object gallery %}</td>
+                                {#                                                <td>{% previous_in_gallery object gallery %}</td>#}
                                 <td class="text-center"><a href="{{ gallery.get_absolute_url }}">{{ gallery.title }}</a>
                                 </td>
-                                <td>{% next_in_gallery object gallery %}</td>
+                                {#                                                <td>{% next_in_gallery object gallery %}</td>#}
                             </tr>
                         {% endfor %}
                     </table>
@@ -35,3 +54,24 @@
         </div>
     </div>
 {% endblock %}
+
+{% block script %}
+    <script src="{% static 'csrf.js' %}"></script>
+
+    <script>
+        function confirm_delete() {
+            // 调用layer弹窗组件
+            layer.open({
+                // 弹窗标题
+                title: "确认删除",
+                // 正文
+                content: "确认从所有相册删除这张照片吗？",
+                // 点击确定按钮后调用的回调函数
+                yes: function (index, layero) {
+                    $('form#safe_delete button').click();
+                    layer.close(index);
+                },
+            })
+        }
+    </script>
+{% endblock script %}

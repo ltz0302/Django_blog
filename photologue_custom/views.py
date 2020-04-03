@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import GalleryPostForm, PhotoPostForm
-from photologue.models import Gallery,Photo
+from photologue.models import Gallery, Photo
+
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def gallery_create(request):
@@ -61,6 +62,17 @@ def photo_add(request):
         gallery = Gallery.objects.all()
         context = {'gallery': gallery}
         return render(request, 'photologue/photo_add.html', context)
+
+@login_required(login_url='/accounts/login/')
+def photo_delete(request, id):
+    if request.method == 'POST':
+        photo = Photo.objects.get(id=id)
+        galleries = photo.galleries.all()
+        for gallery in galleries:
+            photo.galleries.remove(gallery)
+        return redirect("photologue:gallery-list")
+    else:
+        return HttpResponse("仅允许post请求")
 
 
 class GalleryDateView:
