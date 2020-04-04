@@ -9,10 +9,11 @@ from django.db.models import Q
 import markdown
 # Create your views here.
 
-superuser = User.objects.get(is_superuser=True)
+
 
 @login_required(login_url='/accounts/login/')
 def diary_list(request):
+    superuser = User.objects.get(is_superuser=True)
     if request.user != superuser:
         return HttpResponse("抱歉，权限不够。")
     search = request.GET.get('search')
@@ -42,6 +43,7 @@ def diary_list(request):
 
 @login_required(login_url='/accounts/login/')
 def diary_detail(request, id):
+    superuser = User.objects.get(is_superuser=True)
     if request.user != superuser:
         return HttpResponse("抱歉，权限不够。")
     diary = DiaryPost.objects.get(id=id)
@@ -59,6 +61,7 @@ def diary_detail(request, id):
 
 @login_required(login_url='/accounts/login/')
 def diary_create(request):
+    superuser = User.objects.get(is_superuser=True)
     if request.user != superuser:
         return HttpResponse("抱歉，权限不够。")
     if request.method == "POST":
