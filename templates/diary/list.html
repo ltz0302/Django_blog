@@ -84,7 +84,7 @@
                     <a href="?page={{ diaries.previous_page_number }}&search={{ search }}"
                        class="btn btn-secondary"
                     >
-                        {{ articles.previous_page_number }}
+                        {{ diaries.previous_page_number }}
                     </a>
                 {% endif %}
 
@@ -95,7 +95,7 @@
 
                 <!-- 如果不是最末页，则显示下翻按钮 -->
                 {% if diaries.has_next %}
-                    <a href="?page={{ articles.next_page_number }}&search={{ search }}"
+                    <a href="?page={{ diaries.next_page_number }}&search={{ search }}"
                        class="btn btn-secondary"
                     >
                         {{ diaries.next_page_number }}
