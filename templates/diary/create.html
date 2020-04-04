@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} 写文章 {% endblock title %}
+{% block title %} 写日记 {% endblock title %}
 
 {% block content %}
 <!-- 写文章表单 -->
@@ -7,25 +7,15 @@
     <div class="row">
         <div class="col-12">
             <br>
-            <!-- 提交文章的表单 -->
             <form method="post" action=".">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="title">文章标题</label>
+                    <label for="title">标题</label>
                     <input type="text" class="form-control" id="title" name="title">
-                </div>
-                 <!-- 文章标签 -->
-                <div class="form-group">
-                    <label for="tags">标签</label>
-                    <input type="text"
-                           class="form-control col-3"
-                           id="tags"
-                           name="tags"
-                    >
                 </div>
                 <!-- 文章正文 -->
                 <div class="form-group">
-                    <label for="body">文章正文</label>
+                    <label for="body">正文</label>
                     <!-- 文本区域 -->
                     <textarea type="text" class="form-control" id="body" name="body" rows="12"></textarea>
                 </div>

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+<!-- 写入 base.html 中定义的 title -->
+{% block title %}
+    日记
+{% endblock title %}
+
+<!-- 写入 base.html 中定义的 content -->
+{% block content %}
+
+    <!-- 定义放置文章标题的div容器 -->
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <form class="navbar-form">
+                <label class="sr-only">content</label>
+                <input type="text"
+                       class="form-control"
+                       name="search"
+                       placeholder="搜索..."
+                       required
+                >
+            </form>
+
+            <ul class="navbar-nav ml-3">
+                <li class="nav-item ml-auto">
+                    {% if user.is_superuser %}
+                        <a class="btn btn-primary" href="{% url 'diary:diary_create' %}">写日记</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+
+        <!-- 搜索提示语 -->
+        {% if search %}
+            {% if articles %}
+                <h4><span style="color: red">"{{ search }}"</span>的搜索结果如下：</h4>
+                <hr>
+            {% else %}
+                <h4>暂无<span style="color: red">"{{ search }}"</span>有关的记录。</h4>
+                <hr>
+            {% endif %}
+        {% endif %}
+
+        <hr>
+        <div class="row mt-2">
+            {% for diary in diaries %}
+                <!-- 文章内容 -->
+                <div class="col-12">
+                    <!-- 标题 -->
+                    <h4>
+                        <b>
+                            <a href="{% url 'diary:diary_detail' diary.id %}"
+                               style="color: black;"
+                            >
+                                {{ diary.title }}
+                            </a>
+                        </b>
+                    </h4>
+
+                    <!-- 注脚 -->
+                    <p>
+                        <!-- 附加信息 -->
+                        <span style="color: darkred;">
+                    <i class="fas fa-clock" style="color: pink;"></i>
+                    {{ diary.updated|date:'Y-m-d' }}
+                </span>
+                    </p>
+                    <hr>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- 页码导航 -->
+    <div class="pagination row">
+        <div class="m-auto">
+            <span class="step-links">
+                <!-- 如果不是第一页，则显示上翻按钮 -->
+                {% if diaries.has_previous %}
+                    <a href="?page=1&search={{ search }}" class="btn btn-success">
+                        &laquo; 1
+                    </a>
+                    <span>...</span>
+                    <a href="?page={{ diaries.previous_page_number }}&search={{ search }}"
+                       class="btn btn-secondary"
+                    >
+                        {{ articles.previous_page_number }}
+                    </a>
+                {% endif %}
+
+                <!-- 当前页面 -->
+                <span class="current btn btn-danger btn-lg">
+                    {{ diaries.number }}
+                </span>
+
+                <!-- 如果不是最末页，则显示下翻按钮 -->
+                {% if diaries.has_next %}
+                    <a href="?page={{ articles.next_page_number }}&search={{ search }}"
+                       class="btn btn-secondary"
+                    >
+                        {{ diaries.next_page_number }}
+                    </a>
+                    <span>...</span>
+                    <a href="?page={{ diaries.paginator.num_pages }}&search={{ search }}"
+                       class="btn btn-success"
+                    >
+                        {{ diaries.paginator.num_pages }} &raquo;
+                    </a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+
+{% endblock content %}
+

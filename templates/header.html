@@ -11,7 +11,11 @@
                 <a class="nav-link" href="{% url 'article:article_list' %}">文章</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">日记</a>
+                {% if user.is_superuser %}
+                    <a class="nav-link" href="{% url 'diary:diary_list' %}">日记</a>
+                {% else %}
+                    <a class="nav-link" href="#" onclick="warning()">日记</a>
+                {% endif %}
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'photologue:gallery-list' %}">相册</a>
@@ -48,10 +52,10 @@
                                     <span class="badge badge-danger">{{ unread_count }}</span>
                                 {% endif %}
                             </a>
-{#                         {% if user.is_superuser %}#}
-{#                            <a class="dropdown-item" href="{% url 'article:article_create' %}">写文章</a>#}
-{#                         {% endif %}#}
-                            <a class="dropdown-item" href='{% url "userprofile:edit" user.id%}'>个人信息</a>
+                            {#                         {% if user.is_superuser %}#}
+                            {#                            <a class="dropdown-item" href="{% url 'article:article_create' %}">写文章</a>#}
+                            {#                         {% endif %}#}
+                            <a class="dropdown-item" href='{% url "userprofile:edit" user.id %}'>个人信息</a>
                             <a class="dropdown-item" href="#" onclick="user_delete()">删除用户</a>
                             <a class="dropdown-item" href="{% url "userprofile:switch" %}">切换账号</a>
                             <a class="dropdown-item" href="{% url "userprofile:logout" %}">退出登录</a>
@@ -94,3 +98,20 @@
         }
     </script>
 {% endif %}
+
+
+<script>
+    function warning() {
+        // 调用layer弹窗组件
+        layer.open({
+            // 弹窗标题
+            title: "权限不够",
+            // 正文
+            content: "您无权查看此栏目",
+            // 点击确定按钮后调用的回调函数
+            yes: function (index, layero) {
+                layer.close(index);
+            },
+        })
+    }
+</script>

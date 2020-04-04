@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    日记
+{% endblock title %}
+
+{% block content %}
+
+    <!-- 文章详情 -->
+    <div class="container">
+        <div class="row">
+            <!-- 标题及作者 -->
+            <div class="col-9">
+                <h1 class="col-12 mt-4 mb-4">{{ diary.title }}</h1>
+                <div class="col-12 alert alert-success">作者：{{ diary.author }}
+                    {% if user == diary.author %}
+                        <a href="#" onclick="confirm_delete()">删除</a>
+                        {#表单携带csrf令牌发起POST请求#}
+                        <form
+                                style="display:none;"
+                                id="safe_delete"
+                                action="{% url 'diary:diary_safe_delete' diary.id %}"
+                                method="POST"
+                        >
+                            {% csrf_token %}
+                            <button type="submit">发送</button>
+                        </form>
+                        <a href="{% url "diary:diary_update" diary.id %}">编辑</a>
+                    {% endif %}
+                </div>
+                <div class="col-12">
+                    <p>{{ diary.body|safe }}</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+
+
+{% block script %}
+    <script src="{% static 'csrf.js' %}"></script>
+
+    <script>
+        function confirm_delete() {
+            // 调用layer弹窗组件
+            layer.open({
+                // 弹窗标题
+                title: "确认删除",
+                // 正文
+                content: "确认删除这篇日记吗？",
+                // 点击确定按钮后调用的回调函数
+                yes: function (index, layero) {
+                    $('form#safe_delete button').click();
+                    layer.close(index);
+                },
+            })
+        }
+    </script>
+{% endblock script %}
