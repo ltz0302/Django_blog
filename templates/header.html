@@ -4,7 +4,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <!-- 导航栏商标 -->
-        <a class="navbar-brand" href="#">我的博客</a>
+        <a class="navbar-brand" href="/">我的博客</a>
 
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -21,7 +21,7 @@
                 <a class="nav-link" href="{% url 'photologue:gallery-list' %}">相册</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">文档</a>
+                <a class="nav-link" href="#" onclick="info()">文档</a>
             </li>
         </ul>
 
@@ -89,7 +89,7 @@
             // 调用layer弹窗组件
             layer.open({
                 title: "确认删除",
-                content: "确认删除用户资料吗？",
+                content: "确认删除用户吗？",
                 yes: function (index, layero) {
                     $('form#user_delete button').click();
                     layer.close(index);
@@ -108,6 +108,23 @@
             title: "权限不够",
             // 正文
             content: "您无权查看此栏目",
+            // 点击确定按钮后调用的回调函数
+            yes: function (index, layero) {
+                layer.close(index);
+            },
+        })
+    }
+</script>
+
+
+<script>
+    function info() {
+        // 调用layer弹窗组件
+        layer.open({
+            // 弹窗标题
+            title: "消息",
+            // 正文
+            content: "施工中！",
             // 点击确定按钮后调用的回调函数
             yes: function (index, layero) {
                 layer.close(index);
