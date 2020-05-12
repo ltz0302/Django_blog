@@ -21,7 +21,7 @@
                 <a class="nav-link" href="{% url 'photologue:gallery-list' %}">相册</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" onclick="info()">文档</a>
+                <a class="nav-link" href="{% url 'doc:folder_list' %}">文档</a>
             </li>
         </ul>
 
@@ -117,18 +117,18 @@
 </script>
 
 
-<script>
-    function info() {
-        // 调用layer弹窗组件
-        layer.open({
-            // 弹窗标题
-            title: "消息",
-            // 正文
-            content: "施工中！",
-            // 点击确定按钮后调用的回调函数
-            yes: function (index, layero) {
-                layer.close(index);
-            },
-        })
-    }
-</script>
+{#<script>#}
+{#    function info() {#}
+{#        // 调用layer弹窗组件#}
+{#        layer.open({#}
+{#            // 弹窗标题#}
+{#            title: "消息",#}
+{#            // 正文#}
+{#            content: "施工中！",#}
+{#            // 点击确定按钮后调用的回调函数#}
+{#            yes: function (index, layero) {#}
+{#                layer.close(index);#}
+{#            },#}
+{#        })#}
+{#    }#}
+{#</script>#}

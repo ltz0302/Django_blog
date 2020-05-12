@@ -32,6 +32,7 @@ urlpatterns = [
     path('photologue/', include('photologue_custom.urls')),
     path('photologue/', include('photologue.urls', namespace='photologue')),
     path('diary/', include('diary.urls', namespace='diary')),
+    path('doc/', include('doc.urls', namespace='doc')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+<!-- 写入 base.html 中定义的 title -->
+{% block title %}
+    文档
+{% endblock title %}
+
+<!-- 写入 base.html 中定义的 content -->
+{% block content %}
+
+    <!-- 定义放置文章标题的div容器 -->
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ul class="navbar-nav ml-3">
+                <li class="nav-item ml-auto">
+                    {% if user.is_superuser %}
+                        <a class="btn btn-primary" href="{% url 'doc:folder_create' %}">新建文件夹</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+
+
+        <hr>
+        <div class="row mt-2">
+            {% for folder in folders %}
+                <div class="col-12">
+                    <h4>
+                        <b>
+                            <a href="{% url 'doc:doc_list' folder.id %}"
+                               style="color: black;"
+                            >
+                                {{folder.title }}
+                            </a>
+                        </b>
+                    </h4>
+                    <hr>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- 页码导航 -->
+    <div class="pagination row">
+        <div class="m-auto">
+            <span class="step-links">
+                <!-- 如果不是第一页，则显示上翻按钮 -->
+                {% if folders.has_previous %}
+                    <a href="?page=1" class="btn btn-success">
+                        &laquo; 1
+                    </a>
+                    <span>...</span>
+                    <a href="?page={{ folders.previous_page_number }}"
+                       class="btn btn-secondary"
+                    >
+                        {{ folders.previous_page_number }}
+                    </a>
+                {% endif %}
+
+                <!-- 当前页面 -->
+                <span class="current btn btn-danger btn-lg">
+                    {{ folders.number }}
+                </span>
+
+                <!-- 如果不是最末页，则显示下翻按钮 -->
+                {% if folders.has_next %}
+                    <a href="?page={{ folders.next_page_number }}"
+                       class="btn btn-secondary"
+                    >
+                        {{ folders.next_page_number }}
+                    </a>
+                    <span>...</span>
+                    <a href="?page={{ folders.paginator.num_pages }}"
+                       class="btn btn-success"
+                    >
+                        {{ folders.paginator.num_pages }} &raquo;
+                    </a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+
+{% endblock content %}
