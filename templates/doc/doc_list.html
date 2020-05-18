@@ -2,7 +2,7 @@
 
 <!-- 写入 base.html 中定义的 title -->
 {% block title %}
-    文件夹
+    文档
 {% endblock title %}
 
 <!-- 写入 base.html 中定义的 content -->
@@ -10,41 +10,29 @@
 
     <!-- 定义放置文章标题的div容器 -->
     <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <ul class="navbar-nav ml-3">
-                <li class="nav-item ml-auto">
-                    {% if user.is_superuser %}
-                        <a class="btn btn-primary" href="{% url 'doc:doc_add' %}">上传文件</a>
-                        <a class="btn btn-primary" href="{% url 'doc:folder_create' %}">新建文件夹</a>
-                    {% endif %}
-                </li>
-            </ul>
-        </nav>
-
-
         <hr>
         <div class="row mt-2">
-            {% for folder in folders %}
+            {% for doc in docs %}
                 <div class="col-12">
-
-                    <b>
-                        <a href="{% url 'doc:doc_list' folder.id %}"
-                           style="color: black;"
-                        >
-                            {{ folder.title }}
-                        </a>
-                        <a href='#' class="ml-5" onclick="confirm_delete()">删除</a>
-                        <form
-                                style="display:none;"
-                                id="safe_delete"
-                                action="{% url 'doc:folder_delete' folder.id %}"
-                                method="POST"
-                        >
-                            {% csrf_token %}
-                            <button type="submit">发送</button>
-                        </form>
-                    </b>
-
+                    <h4>
+                        <b>
+                            <a href="#"
+                               style="color: black;"
+                            >
+                                {{ doc.title }}
+                            </a>
+                            <a href='#' class="ml-5" onclick="confirm_delete()">删除</a>
+                            <form
+                                    style="display:none;"
+                                    id="safe_delete"
+                                    action="{% url 'doc:doc_delete' doc.id %}"
+                                    method="POST"
+                            >
+                                {% csrf_token %}
+                                <button type="submit">发送</button>
+                            </form>
+                        </b>
+                    </h4>
                     <hr>
                 </div>
             {% endfor %}
@@ -56,35 +44,35 @@
         <div class="m-auto">
             <span class="step-links">
                 <!-- 如果不是第一页，则显示上翻按钮 -->
-                {% if folders.has_previous %}
+                {% if docs.has_previous %}
                     <a href="?page=1" class="btn btn-success">
                         &laquo; 1
                     </a>
                     <span>...</span>
-                    <a href="?page={{ folders.previous_page_number }}"
+                    <a href="?page={{ docs.previous_page_number }}"
                        class="btn btn-secondary"
                     >
-                        {{ folders.previous_page_number }}
+                        {{ docs.previous_page_number }}
                     </a>
                 {% endif %}
 
                 <!-- 当前页面 -->
                 <span class="current btn btn-danger btn-lg">
-                    {{ folders.number }}
+                    {{ docs.number }}
                 </span>
 
                 <!-- 如果不是最末页，则显示下翻按钮 -->
-                {% if folders.has_next %}
-                    <a href="?page={{ folders.next_page_number }}"
+                {% if docs.has_next %}
+                    <a href="?page={{ docs.next_page_number }}"
                        class="btn btn-secondary"
                     >
-                        {{ folders.next_page_number }}
+                        {{ docs.next_page_number }}
                     </a>
                     <span>...</span>
-                    <a href="?page={{ folders.paginator.num_pages }}"
+                    <a href="?page={{ docs.paginator.num_pages }}"
                        class="btn btn-success"
                     >
-                        {{ folders.paginator.num_pages }} &raquo;
+                        {{ docs.paginator.num_pages }} &raquo;
                     </a>
                 {% endif %}
             </span>
@@ -92,6 +80,8 @@
     </div>
 
 {% endblock content %}
+
+
 
 
 {% block script %}
@@ -102,7 +92,7 @@
                 // 弹窗标题
                 title: "确认删除",
                 // 正文
-                content: "确认删除此文件夹吗？",
+                content: "确认删除此文件吗？",
                 // 点击确定按钮后调用的回调函数
                 yes: function (index, layero) {
                     $('form#safe_delete button').click();

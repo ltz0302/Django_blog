@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %} 新建文件夹 {% endblock title %}
 
-</body>
-</html>
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <br>
+                <form method="post" action="#">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="title">文件夹名称</label>
+                        <!-- 文本框 -->
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">确定</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
