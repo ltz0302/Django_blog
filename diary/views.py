@@ -19,7 +19,7 @@ def diary_list(request):
     search = request.GET.get('search')
     diary_list = DiaryPost.objects.all()
 
-    # 搜索查询集
+    # # 搜索查询集
     if search:
         diary_list = diary_list.filter(
             Q(title__icontains=search) |

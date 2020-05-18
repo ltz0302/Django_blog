@@ -11,7 +11,7 @@
                 <li class="nav-item ml-auto">
                     {% if user.is_superuser %}
                         <a href="#" onclick="confirm_delete()">删除照片</a>
-                           <form
+                        <form
                                 style="display:none;"
                                 id="safe_delete"
                                 action="{% url "photologue_custom:photo_delete" photo.id %}"

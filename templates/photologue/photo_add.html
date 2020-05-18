@@ -10,7 +10,7 @@
                     {% csrf_token %}
                     <div class="form-group">
                         <label>选择相册</label>
-                        <select class="form-control" name="id_gallery" >
+                        <select class="form-control" name="id_gallery">
                             {% for item in gallery %}
                                 <option value="{{ item.id }}">{{ item.title }}</option>
                             {% endfor %}
@@ -44,10 +44,10 @@
                         <textarea type="text" class="form-control" id="description" name="description"
                                   rows="2"></textarea>
                     </div>
-{#                    <div class="form-group">#}
-{#                        <label for="is_public">是否公开</label>#}
-{#                        <input type="checkbox" id="is_public" name="is_public" checked>#}
-{#                    </div>#}
+                    {#                    <div class="form-group">#}
+                    {#                        <label for="is_public">是否公开</label>#}
+                    {#                        <input type="checkbox" id="is_public" name="is_public" checked>#}
+                    {#                    </div>#}
                     <!-- 提交按钮 -->
                     <button type="submit" class="btn btn-primary">确定</button>
                 </form>

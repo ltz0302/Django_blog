@@ -2,27 +2,27 @@
 {% block title %} 写日记 {% endblock title %}
 
 {% block content %}
-<!-- 写文章表单 -->
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <br>
-            <form method="post" action=".">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="title">标题</label>
-                    <input type="text" class="form-control" id="title" name="title">
-                </div>
-                <!-- 文章正文 -->
-                <div class="form-group">
-                    <label for="body">正文</label>
-                    <!-- 文本区域 -->
-                    <textarea type="text" class="form-control" id="body" name="body" rows="12"></textarea>
-                </div>
-                <!-- 提交按钮 -->
-                <button type="submit" class="btn btn-primary">完成</button>
-            </form>
+    <!-- 写文章表单 -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <br>
+                <form method="post" action=".">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="title">标题</label>
+                        <input type="text" class="form-control" id="title" name="title">
+                    </div>
+                    <!-- 文章正文 -->
+                    <div class="form-group">
+                        <label for="body">正文</label>
+                        <!-- 文本区域 -->
+                        <textarea type="text" class="form-control" id="body" name="body" rows="12"></textarea>
+                    </div>
+                    <!-- 提交按钮 -->
+                    <button type="submit" class="btn btn-primary">完成</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 {% endblock content %}

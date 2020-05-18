@@ -6,11 +6,11 @@
         <div class="row">
             <div class="col-12">
                 <br>
-                <form method="post" action="#" enctype="multipart/form-data" >
+                <form method="post" action="#" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group">
                         <label>选择文件夹</label>
-                        <select class="form-control" name="folder_id" >
+                        <select class="form-control" name="folder_id">
                             {% for folder in folders %}
                                 <option value="{{ folder.id }}">{{ folder.title }}</option>
                             {% endfor %}
