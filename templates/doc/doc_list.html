@@ -16,11 +16,8 @@
                 <div class="col-12">
                     <h4>
                         <b>
-                            <a href="#"
-                               style="color: black;"
-                            >
-                                {{ doc.title }}
-                            </a>
+                            {{ doc.title }}
+                            <a href="{% url 'doc:doc_download' doc.id %}" class="ml-5">下载</a>
                             <a href='#' class="ml-5" onclick="confirm_delete()">删除</a>
                             <form
                                     style="display:none;"
