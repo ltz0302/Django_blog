@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 class Folder(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, unique=True)
     created = models.DateTimeField(default=timezone.now)
     class Meta:
         # ordering 指定模型返回的数据的排列顺序
@@ -19,6 +19,7 @@ class Document(models.Model):
     folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
     file = models.FileField(upload_to='files')
     created = models.DateTimeField(default=timezone.now)
+    is_public = models.BooleanField(default=True)
     class Meta:
         # ordering 指定模型返回的数据的排列顺序
         # '-created' 表明数据应该以倒序排列

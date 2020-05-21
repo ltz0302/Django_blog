@@ -33,16 +33,18 @@
                         >
                             {{ folder.title }}
                         </a>
-                        <a href='#' class="ml-5" onclick="confirm_delete()">删除</a>
-                        <form
-                                style="display:none;"
-                                id="safe_delete"
-                                action="{% url 'doc:folder_delete' folder.id %}"
-                                method="POST"
-                        >
-                            {% csrf_token %}
-                            <button type="submit">发送</button>
-                        </form>
+                        {% if user.is_superuser %}
+                            <a href='#' class="ml-5" onclick="confirm_delete()">删除</a>
+                            <form
+                                    style="display:none;"
+                                    id="safe_delete"
+                                    action="{% url 'doc:folder_delete' folder.id %}"
+                                    method="POST"
+                            >
+                                {% csrf_token %}
+                                <button type="submit">发送</button>
+                            </form>
+                        {% endif %}
                     </b>
 
                     <hr>

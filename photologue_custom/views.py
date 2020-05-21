@@ -27,7 +27,7 @@ def gallery_create(request):
         context = {'gallery_post_form': gallery_post_form}
         return render(request, 'photologue/gallery_create.html', context)
 
-
+#TODO site
 @login_required(login_url='/accounts/login/')
 def gallery_delete(request, id):
     if request.method == 'POST':

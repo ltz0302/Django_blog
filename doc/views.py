@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from .models import Folder, Document
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, StreamingHttpResponse,FileResponse
+from django.http import HttpResponse, FileResponse
 from .form import FolderPostForm, DocumentPostForm
 from django.conf import settings
 import os
@@ -112,8 +112,6 @@ def doc_download(request, id):
     superuser = User.objects.get(is_superuser=True)
     if request.method == 'GET':
         doc = Document.objects.get(id=id)
-        if request.user != superuser:
-            return HttpResponse("权限不够")
         name = str(doc.file)
         filepath = os.path.join(settings.MEDIA_ROOT, name)
 
