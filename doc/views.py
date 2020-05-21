@@ -109,7 +109,6 @@ def doc_delete(request, id):
 
 @login_required(login_url='/accounts/login/')
 def doc_download(request, id):
-    superuser = User.objects.get(is_superuser=True)
     if request.method == 'GET':
         doc = Document.objects.get(id=id)
         name = str(doc.file)

@@ -14,14 +14,14 @@
         <div class="row mt-2">
             {% for doc in docs %}
                 <div class="col-12">
-                    <h4>
+                    <h6>
                         <b>
                             {{ doc.title }}
                             {% if user.is_superuser or doc.is_public %}
                                 <a href="{% url 'doc:doc_download' doc.id %}" class="ml-5">下载</a>
                             {% endif %}
                             {% if user.is_superuser %}
-                                <a href='#' class="ml-5" onclick="confirm_delete()">删除</a>
+                                <a href='#' class="ml-5 text-danger" onclick="confirm_delete()">删除</a>
                                 <form
                                         style="display:none;"
                                         id="safe_delete"
@@ -33,7 +33,7 @@
                                 </form>
                             {% endif %}
                         </b>
-                    </h4>
+                    </h6>
                     <hr>
                 </div>
             {% endfor %}

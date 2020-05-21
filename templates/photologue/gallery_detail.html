@@ -23,7 +23,7 @@
             <ul class="navbar-nav ml-3">
                 <li class="nav-item ml-auto">
                     {% if user.is_superuser %}
-                        <a href="#" onclick="confirm_delete()">删除相册</a>
+                        <a href="#" class= "text-danger" onclick="confirm_delete()">删除相册</a>
                         <form
                                 style="display:none;"
                                 id="safe_delete"

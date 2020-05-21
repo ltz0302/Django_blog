@@ -29,12 +29,12 @@
 
                     <b>
                         <a href="{% url 'doc:doc_list' folder.id %}"
-                           style="color: black;"
+                           class="text-muted" style="font-size: 200%"
                         >
                             {{ folder.title }}
                         </a>
                         {% if user.is_superuser %}
-                            <a href='#' class="ml-5" onclick="confirm_delete()">删除</a>
+                            <a href='#' class="ml-5 text-danger" style="font-size: 150%" onclick="confirm_delete()">删除</a>
                             <form
                                     style="display:none;"
                                     id="safe_delete"

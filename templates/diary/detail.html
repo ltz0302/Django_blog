@@ -14,7 +14,7 @@
                 <h1 class="col-12 mt-4 mb-4">{{ diary.title }}</h1>
                 <div class="col-12 alert alert-success">作者：{{ diary.author }}
                     {% if user == diary.author %}
-                        <a href="#" onclick="confirm_delete()">删除</a>
+                        <a href="#"  class= "text-danger" onclick="confirm_delete()">删除</a>
                         {#表单携带csrf令牌发起POST请求#}
                         <form
                                 style="display:none;"

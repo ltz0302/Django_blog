@@ -34,7 +34,7 @@
             {% for gallery in object_list %}
                 <br>
                 <div class="row col-12">
-                    <a href="{{ gallery.get_absolute_url }}">{{ gallery.title }}</a>
+                    <a href="{{ gallery.get_absolute_url }}" style="font-size: 200%">{{ gallery.title }}</a>
                 </div>
                 <div class="muted"><small>{% trans "创建日期" %} {{ gallery.date_added }}</small></div>
                 {% if gallery.description %}<p><small>{{ gallery.description|safe }}</small></p>{% endif %}
