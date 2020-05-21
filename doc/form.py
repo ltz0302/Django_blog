@@ -12,4 +12,4 @@ class DocumentPostForm(forms.ModelForm):
     class Meta:
         model = Document
         # 定义表单包含的字段
-        fields = ('file', 'title',)
+        fields = ('file', )

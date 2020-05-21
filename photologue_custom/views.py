@@ -43,7 +43,7 @@ def photo_add(request):
     if request.user != superuser:
         return HttpResponse("抱歉，你无权上传照片。")
     if request.method == 'POST':
-        title = request.POST.get('title')
+        title = request.FILES.get('image').name
         #TODO若照片已存在
         if Photo.objects.filter(title=title).exists():
             photo = Photo.objects.get(title=title)
@@ -51,6 +51,7 @@ def photo_add(request):
             photo_form = PhotoPostForm(request.POST, request.FILES)
             if photo_form.is_valid():
                 photo = photo_form.save(commit=False)
+                photo.title = title
                 photo.save()
             else:
                 return HttpResponse("注册表单输入有误。请重新输入~")

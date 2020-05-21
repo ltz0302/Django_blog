@@ -82,6 +82,7 @@ def doc_add(request):
             # 保存数据，但暂时不提交到数据库中
             new_doc = doc_post_form.save(commit=False)
             new_doc.folder = folder
+            new_doc.title = request.FILES.get('file').name
             new_doc.save()
             return redirect("doc:folder_list")
         else:
@@ -114,7 +115,7 @@ def doc_download(request, id):
         if request.user != superuser:
             return HttpResponse("权限不够")
         folder_id = doc.folder_id
-        name = './media/files/数据结构与算法分析C语言描述_原书第2版_高清版.pdf'
+        name = './media/files/python.pdf'
         # with open(name, 'rb') as f:
         #     c = f.read()
         # return HttpResponse(c)
@@ -128,7 +129,7 @@ def doc_download(request, id):
                         break
         response = StreamingHttpResponse(file_iterator(name))
         response['Content-Type'] = 'application/octet-stream'
-        response['Content-Disposition'] = 'attachment;filename="{0}"'.format(name)
+        response['Content-Disposition'] = "attachment;filename*=utf-8''{}".format(name)
         return response
         # return redirect("doc:doc_list", folder_id)
     else:
