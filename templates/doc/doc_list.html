@@ -17,11 +17,9 @@
                     <h6>
                         <b>
                             {{ doc.title }}
-                            {% if user.is_superuser or doc.is_public %}
-                                <a href="{% url 'doc:doc_download' doc.id %}" class="ml-5">下载</a>
-                            {% endif %}
                             {% if user.is_superuser %}
-                                <a href='#' class="ml-5 text-danger" onclick="confirm_delete()">删除</a>
+                                <a href='#' class="ml-5 text-danger" style="float:right"
+                                   onclick="confirm_delete()">删除</a>
                                 <form
                                         style="display:none;"
                                         id="safe_delete"
@@ -32,6 +30,10 @@
                                     <button type="submit">发送</button>
                                 </form>
                             {% endif %}
+                            {% if user.is_superuser or doc.is_public %}
+                                <a href="{% url 'doc:doc_download' doc.id %}" class="ml-5" style="float:right">下载</a>
+                            {% endif %}
+
                         </b>
                     </h6>
                     <hr>

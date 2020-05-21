@@ -34,7 +34,7 @@
                             {{ folder.title }}
                         </a>
                         {% if user.is_superuser %}
-                            <a href='#' class="ml-5 text-danger" style="font-size: 150%" onclick="confirm_delete()">删除</a>
+                            <a href='#' class="ml-5 text-danger" style="font-size: 150%;float:right" onclick="confirm_delete()">删除</a>
                             <form
                                     style="display:none;"
                                     id="safe_delete"
