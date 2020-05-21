@@ -3,14 +3,16 @@ from django.core.paginator import Paginator
 from .models import Folder, Document
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, StreamingHttpResponse
+from django.http import HttpResponse, StreamingHttpResponse,FileResponse
 from .form import FolderPostForm, DocumentPostForm
-
+from django.conf import settings
+import os
+from django.utils.http import urlquote
 
 # Create your views here.
 def folder_list(request):
     folder_list = Folder.objects.all()
-    paginator = Paginator(folder_list, 3)
+    paginator = Paginator(folder_list, 10)
     page = request.GET.get('page')
     folders = paginator.get_page(page)
 
@@ -46,7 +48,6 @@ def folder_delete(request, id):
     superuser = User.objects.get(is_superuser=True)
     if request.method == 'POST':
         folder = Folder.objects.get(id=id)
-        # 过滤非作者的用户
         if request.user != superuser:
             return HttpResponse("权限不够")
         folder.delete()
@@ -57,11 +58,10 @@ def folder_delete(request, id):
 
 def doc_list(request, folder):
     doc_list = Document.objects.filter(folder=folder)
-    paginator = Paginator(doc_list, 3)
+    paginator = Paginator(doc_list, 10)
     page = request.GET.get('page')
     docs = paginator.get_page(page)
 
-    # 需要传递给模板（templates）的对象
     context = {
         'docs': docs,
     }
@@ -114,23 +114,17 @@ def doc_download(request, id):
         doc = Document.objects.get(id=id)
         if request.user != superuser:
             return HttpResponse("权限不够")
-        folder_id = doc.folder_id
-        name = './media/files/python.pdf'
-        # with open(name, 'rb') as f:
-        #     c = f.read()
-        # return HttpResponse(c)
-        def file_iterator(file_name, chunk_size=512):
-            with open(file_name, 'rb') as f:
-                while True:
-                    c = f.read(chunk_size)
-                    if c:
-                        yield c
-                    else:
-                        break
-        response = StreamingHttpResponse(file_iterator(name))
+        name = str(doc.file)
+        filepath = os.path.join(settings.MEDIA_ROOT, name)
+
+        response = FileResponse(open(filepath, 'rb'))
+        #指定响应格式为二进制流
         response['Content-Type'] = 'application/octet-stream'
-        response['Content-Disposition'] = "attachment;filename*=utf-8''{}".format(name)
+        #TODO 客户端中断连接时 服务端会抛出异常
+        #指定下载时的设定 attachment表示以附件下载,urlquote对文件中包含的中文编码
+        response['Content-Disposition'] = 'attachment;filename="%s' % (urlquote(doc.title))
         return response
-        # return redirect("doc:doc_list", folder_id)
     else:
         return HttpResponse("仅允许post请求")
+
+

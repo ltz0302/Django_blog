@@ -28,7 +28,7 @@ def diary_list(request):
     else:
         search = ''
 
-    paginator = Paginator(diary_list, 3)
+    paginator = Paginator(diary_list, 10)
     page = request.GET.get('page')
     diaries = paginator.get_page(page)
 

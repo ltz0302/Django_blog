@@ -44,7 +44,6 @@ def photo_add(request):
         return HttpResponse("抱歉，你无权上传照片。")
     if request.method == 'POST':
         title = request.FILES.get('image').name
-        #TODO若照片已存在
         if Photo.objects.filter(title=title).exists():
             photo = Photo.objects.get(title=title)
         else:
