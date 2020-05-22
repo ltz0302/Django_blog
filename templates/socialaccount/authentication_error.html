@@ -1,0 +1,11 @@
+{% extends "socialaccount/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "登录失败" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "社交网络登录失败" %}</h1>
+
+<p>{% trans "尝试通过您的社交网络帐户登录时出错。" %}</p>
+{% endblock %}
