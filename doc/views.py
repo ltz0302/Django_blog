@@ -8,6 +8,15 @@ from .form import FolderPostForm, DocumentPostForm
 from django.conf import settings
 import os
 from django.utils.http import urlquote
+# appid 已在配置中移除,请在参数 Bucket 中带上 appid。Bucket 由 BucketName-APPID 组成
+# 1. 设置用户配置, 包括 secretId，secretKey 以及 Region
+from qcloud_cos import CosConfig
+from qcloud_cos import CosS3Client
+from qcloud_cos import CosServiceError
+from qcloud_cos import CosClientError
+import sys
+import logging
+
 
 # Create your views here.
 def folder_list(request):
@@ -74,6 +83,9 @@ def doc_add(request):
     superuser = User.objects.get(is_superuser=True)
     if request.user != superuser:
         return HttpResponse("权限不够")
+    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+    config = CosConfig(Region=settings.RERION, SecretId=settings.COS_SECRET_ID, SecretKey=settings.COS_SECRET_KEY)
+    client = CosS3Client(config)
     if request.method == "POST":
         folder_id = request.POST.get("folder_id")
         folder = Folder.objects.get(id=folder_id)
@@ -83,6 +95,13 @@ def doc_add(request):
             new_doc = doc_post_form.save(commit=False)
             new_doc.folder = folder
             new_doc.title = request.FILES.get('file').name
+
+            response= client.put_object(
+                Bucket='doc-1302212491',
+                Body=request.FILES.get('file'),
+                Key=new_doc.title
+            )
+            print(response['ETag'])
             new_doc.save()
             return redirect("doc:folder_list")
         else:

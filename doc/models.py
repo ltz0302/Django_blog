@@ -17,7 +17,6 @@ class Folder(models.Model):
 class Document(models.Model):
     title = models.CharField(max_length=100)
     folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
-    file = models.FileField(upload_to='files')
     created = models.DateTimeField(default=timezone.now)
     is_public = models.BooleanField(default=True)
     class Meta:

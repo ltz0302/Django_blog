@@ -8,7 +8,7 @@ from taggit.managers import TaggableManager
 
 class ArticlePost(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=100)
     body = models.TextField()
     created = models.DateTimeField(default=timezone.now)
     # 文章更新时间。参数 auto_now=True 指定每次数据更新时自动写入当前时间
