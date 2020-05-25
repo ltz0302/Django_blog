@@ -6,14 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, FileResponse
 from .form import FolderPostForm, DocumentPostForm
 from django.conf import settings
-import os
 from django.utils.http import urlquote
-# appid 已在配置中移除,请在参数 Bucket 中带上 appid。Bucket 由 BucketName-APPID 组成
-# 1. 设置用户配置, 包括 secretId，secretKey 以及 Region
 from qcloud_cos import CosConfig
 from qcloud_cos import CosS3Client
-from qcloud_cos import CosServiceError
-from qcloud_cos import CosClientError
 import sys
 import logging
 
@@ -83,10 +78,11 @@ def doc_add(request):
     superuser = User.objects.get(is_superuser=True)
     if request.user != superuser:
         return HttpResponse("权限不够")
-    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
-    config = CosConfig(Region=settings.RERION, SecretId=settings.COS_SECRET_ID, SecretKey=settings.COS_SECRET_KEY)
-    client = CosS3Client(config)
     if request.method == "POST":
+        logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+        config = CosConfig(Region=settings.RERION, SecretId=settings.COS_SECRET_ID, SecretKey=settings.COS_SECRET_KEY)
+        client = CosS3Client(config)
+
         folder_id = request.POST.get("folder_id")
         folder = Folder.objects.get(id=folder_id)
         doc_post_form = DocumentPostForm(request.POST, request.FILES)
@@ -95,7 +91,7 @@ def doc_add(request):
             new_doc = doc_post_form.save(commit=False)
             new_doc.folder = folder
             new_doc.title = request.FILES.get('file').name
-
+            #TODO 大文件上传完后不能正确刷新
             response= client.put_object(
                 Bucket='doc-1302212491',
                 Body=request.FILES.get('file'),
@@ -113,13 +109,22 @@ def doc_add(request):
 
 
 @login_required(login_url='/accounts/login/')
-def doc_delete(request, id):
+def doc_delete(request,id):
     superuser = User.objects.get(is_superuser=True)
+    if request.user != superuser:
+        return HttpResponse("权限不够")
     if request.method == 'POST':
+        logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+        config = CosConfig(Region=settings.RERION, SecretId=settings.COS_SECRET_ID, SecretKey=settings.COS_SECRET_KEY)
+        client = CosS3Client(config)
+
         doc = Document.objects.get(id=id)
-        if request.user != superuser:
-            return HttpResponse("权限不够")
         folder_id = doc.folder_id
+        client.delete_object(
+            Bucket='doc-1302212491',
+            Key=doc.title
+        )
+
         doc.delete()
         return redirect("doc:doc_list", folder_id)
     else:
@@ -127,20 +132,26 @@ def doc_delete(request, id):
 
 
 @login_required(login_url='/accounts/login/')
-def doc_download(request, id):
+def doc_download(request,id):
     if request.method == 'GET':
-        doc = Document.objects.get(id=id)
-        name = str(doc.file)
-        filepath = os.path.join(settings.MEDIA_ROOT, name)
+        logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+        config = CosConfig(Region=settings.RERION, SecretId=settings.COS_SECRET_ID, SecretKey=settings.COS_SECRET_KEY)
+        client = CosS3Client(config)
 
-        response = FileResponse(open(filepath, 'rb'))
-        #指定响应格式为二进制流
+        doc = Document.objects.get(id=id)
+        cos_response = client.get_object(
+            Bucket='doc-1302212491',
+            Key=doc.title
+        )
+        response = FileResponse(cos_response['Body'].get_raw_stream())
+        # 指定响应格式为二进制流
         response['Content-Type'] = 'application/octet-stream'
-        #TODO 客户端中断连接时 服务端会抛出异常
+        #TODO 服务端会抛出异常
         #指定下载时的设定 attachment表示以附件下载,urlquote对文件中包含的中文编码
         response['Content-Disposition'] = 'attachment;filename="%s' % (urlquote(doc.title))
         return response
     else:
         return HttpResponse("仅允许post请求")
+
 
 
