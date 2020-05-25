@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import GalleryPostForm, PhotoPostForm
 from photologue.models import Gallery, Photo
+from uuslug import slugify
 
 # Create your views here.
 @login_required(login_url='/accounts/login/')
@@ -51,6 +52,8 @@ def photo_add(request):
             if photo_form.is_valid():
                 photo = photo_form.save(commit=False)
                 photo.title = title
+                slug = title.split('.')[0]
+                photo.slug = slugify(slug)
                 photo.save()
             else:
                 return HttpResponse("注册表单输入有误。请重新输入~")
