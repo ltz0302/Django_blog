@@ -15,7 +15,7 @@ class Folder(models.Model):
         return self.title
 
 class Document(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, unique=True)
     folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
     created = models.DateTimeField(default=timezone.now)
     is_public = models.BooleanField(default=True)

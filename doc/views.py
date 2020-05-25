@@ -50,10 +50,22 @@ def folder_create(request):
 @login_required(login_url='/accounts/login/')
 def folder_delete(request, id):
     superuser = User.objects.get(is_superuser=True)
+    if request.user != superuser:
+        return HttpResponse("权限不够")
     if request.method == 'POST':
+        logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+        config = CosConfig(Region=settings.RERION, SecretId=settings.COS_SECRET_ID, SecretKey=settings.COS_SECRET_KEY)
+        client = CosS3Client(config)
+
+        docs = Document.objects.filter(folder_id=id)
+        #COS删除文件夹下的所有文件
+        for doc in docs:
+            client.delete_object(
+                Bucket='doc-1302212491',
+                Key=doc.title
+            )
+        #删除数据库中的记录
         folder = Folder.objects.get(id=id)
-        if request.user != superuser:
-            return HttpResponse("权限不够")
         folder.delete()
         return redirect("doc:folder_list")
     else:
@@ -79,27 +91,33 @@ def doc_add(request):
     if request.user != superuser:
         return HttpResponse("权限不够")
     if request.method == "POST":
-        logging.basicConfig(level=logging.INFO, stream=sys.stdout)
-        config = CosConfig(Region=settings.RERION, SecretId=settings.COS_SECRET_ID, SecretKey=settings.COS_SECRET_KEY)
-        client = CosS3Client(config)
-
-        folder_id = request.POST.get("folder_id")
-        folder = Folder.objects.get(id=folder_id)
-        doc_post_form = DocumentPostForm(request.POST, request.FILES)
+        doc_post_form = DocumentPostForm(request.POST)
         if doc_post_form.is_valid():
-            # 保存数据，但暂时不提交到数据库中
-            new_doc = doc_post_form.save(commit=False)
-            new_doc.folder = folder
-            new_doc.title = request.FILES.get('file').name
-            #TODO 大文件上传完后不能正确刷新
-            response= client.put_object(
-                Bucket='doc-1302212491',
-                Body=request.FILES.get('file'),
-                Key=new_doc.title
-            )
-            print(response['ETag'])
-            new_doc.save()
-            return redirect("doc:folder_list")
+            title = request.FILES.get('file').name
+            if Document.objects.filter(title=title):
+                return HttpResponse("文件名已存在")
+            else:
+                logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+                config = CosConfig(Region=settings.RERION, SecretId=settings.COS_SECRET_ID,
+                                   SecretKey=settings.COS_SECRET_KEY)
+                client = CosS3Client(config)
+                # 保存数据，但暂时不提交到数据库中
+                new_doc = doc_post_form.save(commit=False)
+                # 在表单给定的文件夹下添加文件
+                folder_id = request.POST.get("folder_id")
+                folder = Folder.objects.get(id=folder_id)
+                new_doc.folder = folder
+
+                new_doc.title = title
+                #TODO 大文件上传完后不能正确刷新
+                response= client.put_object(
+                    Bucket='doc-1302212491',
+                    Body=request.FILES.get('file'),
+                    Key=new_doc.title
+                )
+                print(response['ETag'])
+                new_doc.save()
+                return redirect("doc:folder_list")
         else:
             return HttpResponse("表单内容有误，请重新填写。")
     else:

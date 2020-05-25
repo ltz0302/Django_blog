@@ -7,19 +7,6 @@
 {% block content %}
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="#">最新</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="#?order=total_views">热门</a>
-                    </li>
-                </ul>
-
-            </div>
             <ul class="navbar-nav ml-3">
                 <li class="nav-item ml-auto">
                     {% if user.is_superuser %}
@@ -41,7 +28,6 @@
         <div class="row col-12">
             <h3 class="page-header">{{ gallery.title }}</h3>
         </div>
-        <div class="muted"><small>{% trans "Published" %} {{ gallery.date_added }}</small></div>
         {% if gallery.description %}<p><small>{{ gallery.description|safe }}</small></p>{% endif %}
         {% for photo in gallery.public %}
             <a href="{{ photo.get_absolute_url }}">
@@ -49,7 +35,7 @@
             </a>
         {% endfor %}
         <div><a href="{% url 'photologue:gallery-list' %}"
-                class="btn btn-default">{% trans "View all galleries" %}</a></div>
+                class="btn btn-default">{% trans "查看所有相册" %}</a></div>
 
     </div>
 {% endblock %}
