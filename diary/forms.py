@@ -6,4 +6,4 @@ class DiaryPostForm(forms.ModelForm):
     class Meta:
         model = DiaryPost
         # 定义表单包含的字段
-        fields = ('title', 'body')
+        fields = ('title', 'body', 'created',)

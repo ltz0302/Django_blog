@@ -56,13 +56,18 @@
                             </a>
                         </b>
                     </h4>
-
+                    <!-- 摘要 -->
+                    <div>
+                        <small style="color: gray;">
+                            {{ diary.body|slice:'50' }}...
+                        </small>
+                    </div>
                     <!-- 注脚 -->
                     <p>
                         <!-- 附加信息 -->
                         <span style="color: darkred;">
                     <i class="fas fa-clock" style="color: pink;"></i>
-                    {{ diary.updated|date:'Y-m-d' }}
+                    {{ diary.created|date:'Y-m-d' }}
                 </span>
                     </p>
                     <hr>
