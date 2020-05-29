@@ -28,7 +28,11 @@
                         </form>
 
                     {% endif %}
+                    <div>
+                        最后编辑于：{{ diary.updated|date:"Y-m-d H:i" }}
+                    </div>
                 </div>
+
                 <div class="col-12">
                     <p>{{ diary.body|safe }}</p>
                 </div>

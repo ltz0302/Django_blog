@@ -24,7 +24,7 @@
                 <div class="row col-12">
                     <a href="{{ gallery.get_absolute_url }}" style="font-size: 200%">{{ gallery.title }}</a>
                 </div>
-                <div class="muted"><small>{% trans "创建日期" %} {{ gallery.date_added }}</small></div>
+                <div class="muted"><small>{% trans "创建日期" %} {{ gallery.date_added|date:"Y-m-d H:i"}}</small></div>
                 {% if gallery.description %}<p><small>{{ gallery.description|safe }}</small></p>{% endif %}
                 {% for photo in gallery.sample %}
                     <a href="{{ photo.get_absolute_url }}">

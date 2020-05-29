@@ -104,7 +104,8 @@ def diary_update(request, id):
 
             diary.title = request.POST['title']
             diary.body = request.POST['body']
-            diary.created = request.POST['created']
+            if request.POST['created']:
+                diary.created = request.POST['created']
             diary.save()
             # 完成后返回到修改后的文章中。需传入文章的 id 值
             return redirect("diary:diary_detail", id=id)

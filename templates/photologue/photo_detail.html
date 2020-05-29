@@ -28,10 +28,9 @@
         <div class="row col-lg-12">
             <h3 class="page-header">{{ object.title }}</h3>
         </div>
-        <p class="muted"><small>{% trans "上传时间：" %} {{ object.date_added }}</small></p>
+        <p class="muted"><small>{% trans "上传时间：" %} {{ object.date_added |date:"Y-m-d H:i" }}</small></p>
         <div class="row">
             <div class="col-md-6">
-                {% if object.caption %}<p>{{ object.caption|safe }}</p>{% endif %}
                 <a href="{{ object.image.url }}">
                     <img src="{{ object.get_display_url }}" class="thumbnail" alt="{{ object.title }}">
                 </a>
