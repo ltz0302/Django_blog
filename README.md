@@ -18,3 +18,8 @@
 6. 相册模块:django-photologue  
 7. 消息通知:django-notifications-hq  
 8. 腾讯云文件操作:cos-python-sdk-v5  
+
+
+
+ 
+
